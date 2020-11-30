@@ -56,4 +56,8 @@ public interface Dataservice {
     @FormUrlEncoded
     @POST("theloaitheochude.php")
     Call<List<Theloai>> GetTheloaitheochude(@Field("idchude" ) String idchude);
+
+    // tất cả album
+    @GET("tatcaalbum.php")
+    Call<List<Album>> GetAllAlbum();
 }
