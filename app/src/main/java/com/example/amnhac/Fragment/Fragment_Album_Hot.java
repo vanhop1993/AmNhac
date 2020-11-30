@@ -1,5 +1,6 @@
 package com.example.amnhac.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.amnhac.Activity.DanhsachtatcaAlbumActivity;
 import com.example.amnhac.Adapter.AlbumAdapter;
 import com.example.amnhac.Model.Album;
 import com.example.amnhac.R;
@@ -38,6 +40,13 @@ public class Fragment_Album_Hot extends Fragment {
         view = inflater.inflate(R.layout.fragment_album_hot,container,false);// gắn layout vào biến view
         recyclerViewalbum = view.findViewById(R.id.recyclerviewAlbum);
         textViewalbum = view.findViewById(R.id.textviewxemthemalbum);
+        textViewalbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), DanhsachtatcaAlbumActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         GetData();//tạo ra 1 funtion đọc dữ liệu
