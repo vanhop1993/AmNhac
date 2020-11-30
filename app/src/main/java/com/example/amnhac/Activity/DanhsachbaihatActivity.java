@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.amnhac.Adapter.DanhsachbaihatAdapter;
+import com.example.amnhac.Model.Album;
 import com.example.amnhac.Model.Baihat;
 import com.example.amnhac.Model.Playlist;
 import com.example.amnhac.Model.Quangcao;
@@ -50,6 +51,7 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
     DanhsachbaihatAdapter danhsachbaihatAdapter;
     Playlist playlist;
     Theloai theloai;
+    Album album;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +75,34 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
             GetDataTheLoai(theloai.getIdTheLoai());
         }
 
+        if (album != null && !album.getTenAlbum().equals("")) {
+            setValueInView(album.getTenAlbum(),album.getHinhAlbum());
+            GetDataAlbum(album.getIdAlbum());
+        }
+
     }
-//--------------------------------------------------------------------------------------------------
+
+    private void GetDataAlbum(String idAlbum) {
+        Dataservice dataservice =APIService.getService();
+        Call<List<Baihat>> callback = dataservice.GetDanhsachbaihattheoalbum(idAlbum);
+        callback.enqueue(new Callback<List<Baihat>>() {
+            @Override
+            public void onResponse(Call<List<Baihat>> call, Response<List<Baihat>> response) {
+                mangbaihat = (ArrayList<Baihat>) response.body();
+                danhsachbaihatAdapter = new DanhsachbaihatAdapter(DanhsachbaihatActivity.this,mangbaihat);
+                recyclerViewdanhsachbaihat.setLayoutManager(new LinearLayoutManager(DanhsachbaihatActivity.this));
+                recyclerViewdanhsachbaihat.setAdapter(danhsachbaihatAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Baihat>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    //--------------------------------------------------------------------------------------------------
     // tạo function lấy dữ liệu về phần thể loại
     private void GetDataTheLoai(String idtheloai){
         Dataservice dataservice = APIService.getService();// tạo ra retrofit và tạo class dataservice để chứa các phương thức để mình tương tác bên server
@@ -186,6 +214,10 @@ public class DanhsachbaihatActivity extends AppCompatActivity {
         //
         if(intent.hasExtra("idtheloai")){
             theloai = (Theloai) intent.getSerializableExtra("idtheloai");// nhận object mình truyền qua
+        }
+
+        if (intent.hasExtra("album")) {
+            album = (Album) intent.getSerializableExtra("album");
         }
     }
 }

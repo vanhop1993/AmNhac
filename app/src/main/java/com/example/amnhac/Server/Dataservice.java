@@ -60,4 +60,8 @@ public interface Dataservice {
     // tất cả album
     @GET("tatcaalbum.php")
     Call<List<Album>> GetAllAlbum();
+
+    @FormUrlEncoded
+    @POST("danhsachbaihat.php")
+    Call<List<Baihat>> GetDanhsachbaihattheoalbum(@Field("idalbum") String idalbum);
 }
